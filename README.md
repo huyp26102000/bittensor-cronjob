@@ -3,5 +3,5 @@
 ```
 python -m venv main_env
 source main_env/bin/activate
-pip install -e .
+pip install -r requirements.txt
 ```
