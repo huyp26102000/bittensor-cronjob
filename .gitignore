@@ -1,0 +1,115 @@
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.dylib
+
+# Distribution / packaging
+.Python
+build/
+develop/
+dist/
+sdist/
+wheels/
+*.egg-info/
+.eggs/
+
+# PyInstaller
+#  Usually these files are written by PyInstaller
+#  If you need to build executables on Windows, comment out this section
+/build/
+/dist/
+
+# Installer logs
+pip-log.txt
+pip-delete-log.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.log
+.hypothesis/
+.mutation/
+nosetests.xml
+pytest.ini
+
+# Translations
+*.mo
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# IDE / Editor settings
+.idea/
+.vscode/
+*.suo
+*.user
+*.iml
+*.sublime-workspace
+
+# Compiled Object files, Static libraries, and executables
+*.o
+*.a
+*.exe
+*.out
+
+# Environment variables
+.env
+.flaskenv
+
+# macOS
+.DS_Store
+
+# Thumbnails
+._*
+
+# MyPy cache
+.mypy_cache/
+
+# dotenv environment variables file
+.env
+
+# Package manager files
+poetry.lock
+Pipfile.lock
+
+# Production logs
+*.log
+
+# Database files
+*.sqlite3
+
+# Generated GRPC code
+*.pb.go
+*.pb.h
+*.pb.cc
+
+# Conda environment files
+environment.yml
+
+# Virtual environments
+.venv/
+env/
+main_env/
+
+# Spyder project settings
+.spyproject/
+
+# PyCharm
+.cache
+.pycharm_helpers
+
+# VSCode pylint
+.pylint.d
+
+# VSCode autopep8
+.autopep8
+
+# Datasets and large files
+datasets/ # Adjust this path as needed
+large_files/ # Adjust this path as needed
