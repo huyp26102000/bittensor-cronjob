@@ -1,2 +1,2 @@
 run:
-    main_venv/bin/python app.py
+    ./main_env/bin/python app.py
