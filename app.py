@@ -3,10 +3,13 @@ import os
 from dotenv import load_dotenv
 import requests
 import time
+import math
 
 load_dotenv()
 
-
+def round_down(x, decimals=2):
+    multiplier = 10 ** decimals
+    return math.floor(x * multiplier) / multiplier
 def sendTeleMessage(message):
     try:
         print(f"https://api.telegram.org/bot{os.getenv('telegram_token')}/sendMessage")
@@ -71,7 +74,7 @@ while (True):
         fmColdkey = ""
         for node in searchIndex[coldkey]:
             fmColdkey  = fmColdkey + f"""
-<b>{node["uid"]}</b>: <b>{"OK" if node["running"] == True else "Not Running @hiro_trk @tian_ng" }</b> <code>{node["host"]}</code>"""
-        formatedMessage = formatedMessage + f"\n{coldkey}" + f"{fmColdkey}"
+<b>{node["uid"]}</b>:{round_down(node["incentive"], 2)} <b>{"OK" if node["running"] == True else "Not Running @hiro_trk @tian_ng" }</b> <code>{node["host"]}</code>"""
+        formatedMessage = formatedMessage + f"\n<b>{coldkey}</b>\n" + f"{fmColdkey}"
     sendTeleMessage(formatedMessage)
     time.sleep(300)
