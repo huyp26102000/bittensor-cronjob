@@ -7,7 +7,7 @@ import math
 
 load_dotenv()
 
-def round_down(x, decimals=2):
+def round_down(x, decimals=5):
     multiplier = 10 ** decimals
     return math.floor(x * multiplier) / multiplier
 def sendTeleMessage(message):
@@ -74,7 +74,7 @@ while (True):
         fmColdkey = ""
         for node in searchIndex[coldkey]:
             fmColdkey  = fmColdkey + f"""
-<b>{node["uid"]}</b>:{round_down(node["incentive"], 2)} <b>{"OK" if node["running"] == True else "Not Running @hiro_trk @tian_ng" }</b> <code>{node["host"]}</code>"""
+<b>{node["uid"]}</b>:{round_down(node["incentive"], 5)} <b>{"OK" if node["running"] == True else "Not Running @hiro_trk @tian_ng" }</b> <code>{node["host"]}</code>"""
         formatedMessage = formatedMessage + f"\n<b>{coldkey}</b>\n" + f"{fmColdkey}"
     sendTeleMessage(formatedMessage)
     time.sleep(300)
