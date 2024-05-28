@@ -45,8 +45,8 @@ while (True):
                 ip = nodeUrl[i].ip
                 print(port, ip)
                 try:
-                    response = requests.get(f"http://{ip}:{port}", timeout=3)
-                    if (response.text.__contains__(acceptedResp)):
+                    response = requests.get(f"http://{ip}:{port}", timeout=8)
+                    if (response.status_code == 200):
                         indices.append({
                             "uid": i,
                             "running": True,
