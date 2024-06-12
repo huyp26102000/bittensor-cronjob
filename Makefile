@@ -3,3 +3,5 @@ init:
 	&& main_env/bin/pip install -r requirements.txt
 run:
 	./main_env/bin/python app.py
+run-openai:
+	./main_env/bin/python openai.py
