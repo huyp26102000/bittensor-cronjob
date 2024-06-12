@@ -1,30 +1,29 @@
-import openai
 import os
 import requests
 import time
-import utils
 from dotenv import load_dotenv
 from utils import send_tele_message
 
 load_dotenv()
 openai_api_key=os.getenv('openai_api_key').split(",")
 
+
 while(True):
     formatedMessage = ""
     for apikey in openai_api_key:
+        # try:
+        url = "https://api.openai.com/v1/models"
+        headers = {
+            "Authorization": f"Bearer {apikey}"
+        }
         try:
-            openai.api_key = apikey
-            print(openai.api_key)
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "user", "content": "hello"}
-                ],
-                max_tokens=10
-            )
+            response = requests.get(url, headers=headers)
             print(response)
-        except:
-            print(f"API Error")
+            if(response.status_code != 200):
+                formatedMessage = formatedMessage + f"\n{apikey} {os.getenv('telegram_tag_user')}"
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred: {e}")
             formatedMessage = formatedMessage + f"\n{apikey} {os.getenv('telegram_tag_user')}"
-    send_tele_message(formatedMessage)
+    if len(formatedMessage) > 0:
+        send_tele_message(formatedMessage)
     time.sleep(300)
