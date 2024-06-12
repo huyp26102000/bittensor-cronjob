@@ -21,6 +21,7 @@ print(sorted_incentive_data)
 search_index = {}
 nodeData = {}
 while(True):
+    formatedMessage = ""
     for coldkey in coldkeys:
         indices = []
         for i, value in enumerate(netColdkeys):
@@ -53,7 +54,6 @@ while(True):
                         "host": f"{ip}:{port}"
                     })
         search_index[coldkey] = indices
-    formatedMessage = ""
     for coldkey in coldkeys:
         fmColdkey = ""
         for node in search_index[coldkey]:
@@ -63,4 +63,5 @@ while(True):
 <b>{node["uid"]}</b>:{round_down(node["incentive"], 5)} <b>{"" if node["running"] == True else f"Not Running {os.getenv('telegram_tag_user')}" }</b>      <code>{node["host"]}</code>"""
         formatedMessage = formatedMessage + f"\n<b>{coldkey}</b>\n" + f"{fmColdkey}"
     send_tele_message(formatedMessage)
+    formatedMessage = ""
     time.sleep(300)
