@@ -5,7 +5,6 @@ import requests
 import time
 import math
 import numpy as np
-import openai
 
 load_dotenv()
 
@@ -33,7 +32,6 @@ def send_tele_message(message):
 # while (True):
 metagraph = bt.metagraph(int(os.getenv('netuid')), network=os.getenv('network'))
 coldkeys = os.getenv('track_coldkey').split(",")
-openai_api_key=os.getenv('openai_api_key').split(",")
 netColdkeys = metagraph.coldkeys
 nodeUrl = metagraph.axons
 
@@ -85,20 +83,5 @@ while(True):
             fmColdkey  = fmColdkey + f"""
 <b>{node["uid"]}</b>:{round_down(node["incentive"], 5)} <b>{"" if node["running"] == True else f"Not Running {os.getenv('telegram_tag_user')}" }</b>      <code>{node["host"]}</code>"""
         formatedMessage = formatedMessage + f"\n<b>{coldkey}</b>\n" + f"{fmColdkey}"
-    for apikey in openai_api_key:
-        try:
-            openai.api_key = apikey
-            print(openai.api_key)
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "user", "content": "hello"}
-                ],
-                max_tokens=10
-            )
-            print(response)
-        except:
-            print(f"API Error")
-            formatedMessage = formatedMessage + f"\n{apikey} {os.getenv('telegram_tag_user')}"
     send_tele_message(formatedMessage)
     time.sleep(300)
