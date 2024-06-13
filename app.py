@@ -20,48 +20,45 @@ sorted_incentive_data = np.sort(array_incentive_data)
 print(sorted_incentive_data)
 search_index = {}
 nodeData = {}
-while(True):
-    formatedMessage = ""
-    for coldkey in coldkeys:
-        indices = []
-        for i, value in enumerate(netColdkeys):
-            if value == coldkey:
-                port = nodeUrl[i].port
-                ip = nodeUrl[i].ip
-                print(port, ip)
-                try:
-                    response = requests.get(f"http://{ip}:{port}", timeout=8)
-                    if (len(response.text) > 5):
-                        indices.append({
-                            "uid": i,
-                            "running": True,
-                            "incentive": incentive_data[i],
-                            "host": f"{ip}:{port}"
-                        })
-                    else:
-                        indices.append({
-                            "uid": i,
-                            "running": False,
-                            "incentive": incentive_data[i],
-                            "host": f"{ip}:{port}"
-                        })
-                except requests.exceptions.RequestException as e:
-                    print(f"An error occurred while requesting the URL: {e}")
+formatedMessage = ""
+for coldkey in coldkeys:
+    indices = []
+    for i, value in enumerate(netColdkeys):
+        if value == coldkey:
+            port = nodeUrl[i].port
+            ip = nodeUrl[i].ip
+            print(port, ip)
+            try:
+                response = requests.get(f"http://{ip}:{port}", timeout=8)
+                if (len(response.text) > 5):
+                    indices.append({
+                        "uid": i,
+                        "running": True,
+                        "incentive": incentive_data[i],
+                        "host": f"{ip}:{port}"
+                    })
+                else:
                     indices.append({
                         "uid": i,
                         "running": False,
                         "incentive": incentive_data[i],
                         "host": f"{ip}:{port}"
                     })
-        search_index[coldkey] = indices
-    for coldkey in coldkeys:
-        fmColdkey = ""
-        for node in search_index[coldkey]:
-            print(node["incentive"], str(node["incentive"]))
-            print(np.where(sorted_incentive_data == int(node["incentive"])))
-            fmColdkey  = fmColdkey + f"""
+            except requests.exceptions.RequestException as e:
+                print(f"An error occurred while requesting the URL: {e}")
+                indices.append({
+                    "uid": i,
+                    "running": False,
+                    "incentive": incentive_data[i],
+                    "host": f"{ip}:{port}"
+                })
+    search_index[coldkey] = indices
+for coldkey in coldkeys:
+    fmColdkey = ""
+    for node in search_index[coldkey]:
+        print(node["incentive"], str(node["incentive"]))
+        print(np.where(sorted_incentive_data == int(node["incentive"])))
+        fmColdkey  = fmColdkey + f"""
 <b>{node["uid"]}</b>:{round_down(node["incentive"], 5)} <b>{"" if node["running"] == True else f"Not Running {os.getenv('telegram_tag_user')}" }</b>      <code>{node["host"]}</code>"""
-        formatedMessage = formatedMessage + f"\n<b>{coldkey}</b>\n" + f"{fmColdkey}"
-    send_tele_message(formatedMessage)
-    formatedMessage = ""
-    time.sleep(300)
+    formatedMessage = formatedMessage + f"\n<b>{coldkey}</b>\n" + f"{fmColdkey}"
+send_tele_message(formatedMessage)
