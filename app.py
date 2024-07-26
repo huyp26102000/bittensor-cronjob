@@ -11,6 +11,7 @@ load_dotenv()
 
 metagraph = bt.metagraph(int(os.getenv('netuid')), network=os.getenv('network'))
 coldkeys = os.getenv('track_coldkey').split(",")
+vastai_apikeys = os.getenv('vastai_apikey').split(",")
 netColdkeys = metagraph.coldkeys
 nodeUrl = metagraph.axons
 
@@ -21,6 +22,20 @@ print(sorted_incentive_data)
 search_index = {}
 nodeData = {}
 formatedMessage = ""
+def fetch_vastai_credit (apikey):
+    url = "https://cloud.vast.ai/api/v0/users/current/"
+    headers = {
+        "Authorization": f"Bearer {apikey}"  # Replace with your Vastai API key
+    }
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        print(data)
+        username = data.get('username', 'Unknown User')
+        credit = data.get('credit', 0)
+        return f"{username} {credit}"
+    else:
+        print(f"Error: {response.status_code}")
 for coldkey in coldkeys:
     indices = []
     for i, value in enumerate(netColdkeys):
@@ -61,4 +76,8 @@ for coldkey in coldkeys:
         fmColdkey  = fmColdkey + f"""
 <b>{node["uid"]}</b>:{round_down(node["incentive"], 5)} <b>{"" if node["running"] == True else f"Not Running {os.getenv('telegram_tag_user')}" }</b>      <code>{node["host"]}</code>"""
     formatedMessage = formatedMessage + f"\n<b>{coldkey}</b>\n" + f"{fmColdkey}"
+for vastai_apikey in vastai_apikeys:
+    balance_str = fetch_vastai_credit(vastai_apikey)
+    formatedMessage = formatedMessage + f"{balance_str}\n"
+
 send_tele_message(formatedMessage)
