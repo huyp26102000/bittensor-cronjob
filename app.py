@@ -62,6 +62,6 @@ for coldkey in coldkeys:
         print(np.where(sorted_incentive_data == int(node["incentive"])))
         fmColdkey  = fmColdkey + f"""
 <b>🍺{node["uid"]}</b>:{round_down(node["incentive"], 5)} <b>{"" if node["running"] == True else f"Not Running {os.getenv('telegram_tag_user')}" }</b>      <code>{node["host"]}</code>"""
-    formatedMessage = formatedMessage + f"\n<b>🍟{coldkey}</b>\n" + f"{fmColdkey}"
+    formatedMessage = formatedMessage + f"\n<b>{coldkey}</b>🍟\n" + f"{fmColdkey}"
 
 send_tele_message(formatedMessage, os.getenv('telegram_status_thread_id'))
