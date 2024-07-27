@@ -2,6 +2,7 @@ import requests
 import os
 from dotenv import load_dotenv
 from utils import round_down, send_tele_message, days_until_end_timestamp
+import time
 
 load_dotenv()
 vastai_apikeys = os.getenv('vastai_apikey').split(",")
@@ -49,9 +50,11 @@ def fetch_instants (apikey):
         return instant_formated_text
     else:
         print(f"Error: {response.status_code}")
-for vastai_apikey in vastai_apikeys:
-    balance_str = fetch_vastai_credit(vastai_apikey)
-    instants_str = fetch_instants(vastai_apikey)
-    formatedMessage = formatedMessage + f"{balance_str}\n" + instants_str + "\n\n"
+while True:
+    for vastai_apikey in vastai_apikeys:
+        balance_str = fetch_vastai_credit(vastai_apikey)
+        instants_str = fetch_instants(vastai_apikey)
+        formatedMessage = formatedMessage + f"{balance_str}\n" + instants_str + "\n\n"
 
-send_tele_message(formatedMessage, thread_id)
+    send_tele_message(formatedMessage, thread_id)
+    time.sleep(300)
