@@ -44,7 +44,7 @@ def fetch_instants (apikey):
             instant_str = (
                 f"\n🔫<b>{geolocation}</b> "
                 f"<b>{'OK' if status else f'Not Running' + os.getenv('telegram_tag_user')}</b>\n"
-                f"<b>{remaining_days}</b> days  Disk: {disk_space}/{disk_usage}Gb"
+                f"<b>{remaining_days}</b> days  Disk: {disk_usage}/{disk_space}Gb"
             )
             instant_formated_text = instant_formated_text + instant_str
         return instant_formated_text
